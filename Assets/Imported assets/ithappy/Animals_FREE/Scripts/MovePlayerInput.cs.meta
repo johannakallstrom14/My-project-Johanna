@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: be2f4aa750c530144bd7219a00354c98
+guid: b2c67ce836140b4479603ebcf944cddd
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -14,5 +14,5 @@ AssetOrigin:
   productId: 260727
   packageName: Animals FREE - Animated Low Poly 3D Models
   packageVersion: 2.3
-  assetPath: Assets/ithappy/Animals_FREE/Scripts/CreatureMover.cs
+  assetPath: Assets/Imported assets/ithappy/Animals_FREE/Scripts/MovePlayerInput.cs
   uploadId: 785724

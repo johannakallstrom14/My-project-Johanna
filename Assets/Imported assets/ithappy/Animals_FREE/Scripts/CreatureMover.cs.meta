@@ -1,8 +1,11 @@
 fileFormatVersion: 2
-guid: 3677ca4e9421f2146bce7bec13d42320
-NativeFormatImporter:
+guid: be2f4aa750c530144bd7219a00354c98
+MonoImporter:
   externalObjects: {}
-  mainObjectFileID: 9100000
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -11,5 +14,5 @@ AssetOrigin:
   productId: 260727
   packageName: Animals FREE - Animated Low Poly 3D Models
   packageVersion: 2.3
-  assetPath: Assets/Imported assets/ithappy/Animals_FREE/Animations/Animation_Controllers/Horse.controller
+  assetPath: Assets/Scripts/CreatureMover.cs
   uploadId: 785724
