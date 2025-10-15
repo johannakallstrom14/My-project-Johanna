@@ -13,8 +13,8 @@ public class SpawnManager : MonoBehaviour
     //[Header("Spawn Offset")]
     private float yOffset = 0.5f; // a tiny lift so it’s not inside the ground
 
-    public float minDistanceFromChicken = 0.5f;
-    public float maxDistanceFromChicken = 2.0f;
+    //public float minDistanceFromChicken = 0.5f;
+    //public float maxDistanceFromChicken = 2.0f;
 
 
     private Transform[] chickens;
@@ -78,12 +78,6 @@ public class SpawnManager : MonoBehaviour
         }
 
         }
-
-
-
-
-
-        
 
         //Removed * yOffset
         //Vector3 pos = chicken.position + randomDir * distanceFromChicken + Vector3.up;
