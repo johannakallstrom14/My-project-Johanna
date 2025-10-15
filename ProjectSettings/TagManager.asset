@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Chicken
+  - Egg
   layers:
   - Default
   - TransparentFX

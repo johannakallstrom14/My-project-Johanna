@@ -19,7 +19,6 @@ public class TriggerDoor : MonoBehaviour
         }
     }
 
-
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))

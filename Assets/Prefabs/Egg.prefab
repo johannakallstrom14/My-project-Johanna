@@ -173,3 +173,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTag: Player
   destroyDelay: 0
+  points: 1
+  gameManager: {fileID: 0}
