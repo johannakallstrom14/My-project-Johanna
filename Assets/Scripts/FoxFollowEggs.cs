@@ -7,6 +7,7 @@ public class FoxFollowEggs : MonoBehaviour
     public float speed = 3f;
     public float stopDistance = 0.5f;
     public float checkRate = 0.5f;
+    public float smoothTurn = 4f;
 
     private Transform targetEgg;
     private float checkTimer;
@@ -30,7 +31,9 @@ public class FoxFollowEggs : MonoBehaviour
         if (dist > stopDistance)
         {
             transform.position += dir.normalized * speed * Time.deltaTime;
-            transform.forward = dir.normalized;
+
+            // Smoothly rotate toward the target direction
+            transform.forward = Vector3.Slerp(transform.forward, dir.normalized, Time.deltaTime * smoothTurn);
         }
     }
 
