@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
     private void UpdateScoreUI()
     {
         if (scoreText != null)
-            scoreText.text = ": " + score;
+            scoreText.text = score + " /30";
     }
 
     private void UpdateTimerUI()
