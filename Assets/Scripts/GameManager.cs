@@ -14,51 +14,74 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public bool useUnscaledTime = false;
 
-    [Header("Result UI")]
+    [Header("UI Panels")]
+    public GameObject startPanel;
     public GameObject winPanel;
     public GameObject losePanel;
+    
 
     private float timeLeft;
     private bool gameEnded = false;
+    private bool gameStarted = false;
 
     private void Start()
-    {
-        Time.timeScale = 1f;
-
-        timeLeft = gameDuration;
-
+    { 
+        if (startPanel) startPanel.SetActive(true);
         if (winPanel) winPanel.SetActive(false);
         if (losePanel) losePanel.SetActive(false);
 
+        timeLeft = gameDuration;
+        score = 0;
         UpdateScoreUI();
         UpdateTimerUI();
+
+        Time.timeScale = 0f; // paused until StartGame is pressed
     }
 
     void Update()
     {
-        if (gameEnded) return;
+        if (!gameStarted || gameEnded) return;
 
-        // Use deltaTime or unscaledDeltaTime
-        float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
-        timeLeft -= dt;
+        timeLeft -= Time.deltaTime;
         if (timeLeft < 0f) timeLeft = 0f;
 
         UpdateTimerUI();
 
         if (timeLeft <= 0f)
-           EndGame(score >= targetScore);
-        }
-        
-    
+            EndGame(score >= targetScore);
+    }
+
+    public void StartGame()
+    {
+        if (gameStarted) return;
+        gameStarted = true;
+        gameEnded = false;
+
+        //Reset round values (optional)
+        timeLeft = gameDuration;
+        score = 0;
+        UpdateScoreUI();
+        UpdateTimerUI();
+
+        if (startPanel) startPanel.SetActive(false);
+        if (winPanel) winPanel.SetActive(false);
+        if (losePanel) losePanel.SetActive(false);
+
+        Time.timeScale = 1f; // unpause
+    }
+
+
+
 
     public void AddScore(int amount)
     {
-        if (gameEnded) return;
+        if (!gameStarted || gameEnded) return;
 
         score += amount;
         Debug.Log(": " + score);
         UpdateScoreUI();
 
+        //instant win on reaching target
         if (score >= targetScore)
             EndGame(true);
     }
