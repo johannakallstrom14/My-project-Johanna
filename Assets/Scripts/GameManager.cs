@@ -1,20 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
+
 
 public class GameManager : MonoBehaviour
 {
 
     public int score = 0;
-    public Text scoreText;
+    public TextMeshProUGUI scoreText;
 
     public void AddScore(int amount)
     {
         score += amount;
-        Debug.Log("Score: " + score);
+        Debug.Log(": " + score);
 
         if(scoreText != null)
         {
-            scoreText.text = "Score: " + score; 
+            scoreText.text = ": " + score; 
         }
     }
 }
