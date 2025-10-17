@@ -4,6 +4,7 @@ public class AudioManager : MonoBehaviour
 {
     private static AudioManager instance;
 
+    //For background music
     private void Awake()
     {
         if(instance == null)

@@ -172,6 +172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTag: Player
+  foxTag: Fox
   destroyDelay: 0
   points: 1
+  volume: 10
+  audioManager: {fileID: 0}
+  collectSound: {fileID: 8300000, guid: 8aaef718e48294f01b2018872d68ff5b, type: 3}
+  collectParticles: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
   gameManager: {fileID: 0}
