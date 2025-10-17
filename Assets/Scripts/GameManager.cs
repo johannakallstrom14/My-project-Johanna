@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -70,9 +71,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f; // unpause
     }
 
-
-
-
     public void AddScore(int amount)
     {
         if (!gameStarted || gameEnded) return;
@@ -116,6 +114,13 @@ public class GameManager : MonoBehaviour
             int seconds = Mathf.CeilToInt(timeLeft);
             timerText.text = seconds.ToString();
         }
+    }
+
+    public void RestartGame()
+    {
+        Debug.Log("[GameManager] Restarting game...");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
