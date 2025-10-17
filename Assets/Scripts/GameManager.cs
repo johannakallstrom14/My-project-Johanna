@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-
 public class GameManager : MonoBehaviour
 {
     [Header("Score Settings")]
@@ -15,20 +14,38 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public bool useUnscaledTime = false;
 
-    [Header("UI Panels")]
+    [Header("UI Panels/Buttons")]
     public GameObject startPanel;
     public GameObject winPanel;
     public GameObject losePanel;
+    public GameObject settingsButton;
 
+    [Header("Pause")]
+    public GameObject pausePanel;
+
+    
     private float timeLeft;
     private bool gameEnded = false;
     private bool gameStarted = false;
+    private bool isPaused = false;
 
     private void Start()
-    { 
-        if (startPanel) startPanel.SetActive(true);
-        if (winPanel) winPanel.SetActive(false);
-        if (losePanel) losePanel.SetActive(false);
+    {
+        if (startPanel) {
+            startPanel.SetActive(true);
+        }
+
+        if (winPanel) {
+            winPanel.SetActive(false);
+        }
+
+        if (losePanel) {
+            losePanel.SetActive(false);
+        }
+
+        if (settingsButton) {
+            settingsButton.SetActive(false);
+        }
 
         timeLeft = gameDuration;
         score = 0;
@@ -40,20 +57,28 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!gameStarted || gameEnded) return;
+        if (!gameStarted || gameEnded) {
+            return;
+        }
 
         timeLeft -= Time.deltaTime;
-        if (timeLeft < 0f) timeLeft = 0f;
 
-        UpdateTimerUI();
+        if (timeLeft < 0f) {
+            timeLeft = 0f;
+        }
 
-        if (timeLeft <= 0f)
+     UpdateTimerUI();
+
+        if (timeLeft <= 0f) {
             EndGame(score >= targetScore);
+        }     
     }
 
     public void StartGame()
     {
-        if (gameStarted) return;
+        if (gameStarted) {
+            return;
+        }    
         gameStarted = true;
         gameEnded = false;
 
@@ -63,13 +88,21 @@ public class GameManager : MonoBehaviour
         UpdateScoreUI();
         UpdateTimerUI();
 
-        if (startPanel) startPanel.SetActive(false);
-        if (winPanel) winPanel.SetActive(false);
-        if (losePanel) losePanel.SetActive(false);
+        if (startPanel) {
+            startPanel.SetActive(false);
+        }
 
+        if (winPanel) {
+            winPanel.SetActive(false);
+        }
+
+        if (losePanel) {
+            losePanel.SetActive(false);
+        }
+        
         var musicMgr = FindObjectOfType<AudioManager>();   // your DontDestroyOnLoad singleton
-        if (musicMgr != null)
-        {
+
+        if (musicMgr != null) {
             var bg = musicMgr.GetComponent<AudioSource>();
             if (bg && !bg.isPlaying) bg.Play();            // Play On Awake OFF on MusicManager
         }
@@ -79,15 +112,18 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int amount)
     {
-        if (!gameStarted || gameEnded) return;
-
+        if (!gameStarted || gameEnded) {
+            return;
+        }
+        
         score += amount;
         Debug.Log(": " + score);
         UpdateScoreUI();
 
         //instant win on reaching target
-        if (score >= targetScore)
+        if (score >= targetScore) {
             EndGame(true);
+        }  
     }
 
     private void EndGame(bool win)
@@ -95,13 +131,11 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
         Time.timeScale = 0f; // pause the game
 
-        if (win)
-        {
+        if (win) {
             Debug.Log("You win!");
-            if (winPanel) winPanel.SetActive(true);
-        }
-        else
-        {
+            if (winPanel)
+                winPanel.SetActive(true);
+        } else {
             Debug.Log("Game over!");
             if (losePanel) losePanel.SetActive(true);
         }
@@ -109,14 +143,15 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        if (scoreText != null)
+        if (scoreText != null) {
             scoreText.text = score + " /30";
+        }
+            
     }
 
     private void UpdateTimerUI()
     {
-        if (timerText != null)
-        {
+        if (timerText != null) {
             int seconds = Mathf.CeilToInt(timeLeft);
             timerText.text = seconds.ToString();
         }
@@ -129,4 +164,42 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void TogglePause()
+    {
+        if (!gameStarted || gameEnded) {
+            return;
+        }
+
+        if (isPaused) {
+            ResumeGame();
+        } else {
+            PauseGame();
+        }      
+    }
+
+    public void PauseGame()
+    {
+        if (isPaused) {
+            return;
+        }  
+        isPaused = true;
+        Time.timeScale = 0f;                 
+
+        if (pausePanel) {
+            pausePanel.SetActive(true);
+            Debug.Log("Game Paused");
+        }
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        if (pausePanel) {
+            pausePanel.SetActive(false);
+            Debug.Log("Game Resumed");
+        }      
+    }
 }
+
