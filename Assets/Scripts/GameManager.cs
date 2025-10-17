@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
     [Header("Score Settings")]
@@ -14,27 +15,35 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public bool useUnscaledTime = false;
 
-    [Header("UI Panels/Buttons")]
+    [Header("UI Panels")]
     public GameObject startPanel;
     public GameObject winPanel;
     public GameObject losePanel;
-    public GameObject settingsButton;
 
+<<<<<<< HEAD
     [Header("Pause")]
     public GameObject pausePanel;
     
+=======
+>>>>>>> parent of c682398 (Particle System coins & pause button)
     private float timeLeft;
     private bool gameEnded = false;
     private bool gameStarted = false;
-    private bool isPaused = false;
 
     private void Start()
+<<<<<<< HEAD
     {
         //Load StartScene
         startPanel.SetActive(true);
         winPanel.SetActive(false);
         losePanel.SetActive(false);
         settingsButton.SetActive(false);
+=======
+    { 
+        if (startPanel) startPanel.SetActive(true);
+        if (winPanel) winPanel.SetActive(false);
+        if (losePanel) losePanel.SetActive(false);
+>>>>>>> parent of c682398 (Particle System coins & pause button)
 
         timeLeft = gameDuration;
         score = 0;
@@ -47,14 +56,20 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+<<<<<<< HEAD
         if (!gameStarted || gameEnded)
         {
             return;
         }
+=======
+        if (!gameStarted || gameEnded) return;
+>>>>>>> parent of c682398 (Particle System coins & pause button)
 
         //Countdown for the timer
         timeLeft -= Time.deltaTime;
+        if (timeLeft < 0f) timeLeft = 0f;
 
+<<<<<<< HEAD
         //Prevents timer to count negative numbers
         if (timeLeft < 0f)
         {
@@ -67,17 +82,25 @@ public class GameManager : MonoBehaviour
         //End game when time is up
         if (timeLeft <= 0f)
         {
+=======
+        UpdateTimerUI();
+
+        if (timeLeft <= 0f)
+>>>>>>> parent of c682398 (Particle System coins & pause button)
             EndGame(score >= targetScore);
-        }     
     }
 
     public void StartGame()
     {
+<<<<<<< HEAD
         if (gameStarted)
         {
             return;
         }
 
+=======
+        if (gameStarted) return;
+>>>>>>> parent of c682398 (Particle System coins & pause button)
         gameStarted = true;
         gameEnded = false;
 
@@ -87,6 +110,7 @@ public class GameManager : MonoBehaviour
         UpdateScoreUI();
         UpdateTimerUI();
 
+<<<<<<< HEAD
         startPanel.SetActive(false);
         winPanel.SetActive(false);
         losePanel.SetActive(false);
@@ -101,24 +125,45 @@ public class GameManager : MonoBehaviour
 
         // unpause game
         Time.timeScale = 1f; 
+=======
+        if (startPanel) startPanel.SetActive(false);
+        if (winPanel) winPanel.SetActive(false);
+        if (losePanel) losePanel.SetActive(false);
+
+        var musicMgr = FindObjectOfType<AudioManager>();   // your DontDestroyOnLoad singleton
+        if (musicMgr != null)
+        {
+            var bg = musicMgr.GetComponent<AudioSource>();
+            if (bg && !bg.isPlaying) bg.Play();            // Play On Awake OFF on MusicManager
+        }
+
+        Time.timeScale = 1f; // unpause
+>>>>>>> parent of c682398 (Particle System coins & pause button)
     }
 
     public void AddScore(int amount)
     {
+<<<<<<< HEAD
         if (!gameStarted || gameEnded)
         {
             return;
         }
         
+=======
+        if (!gameStarted || gameEnded) return;
+
+>>>>>>> parent of c682398 (Particle System coins & pause button)
         score += amount;
         Debug.Log(": " + score);
         UpdateScoreUI();
 
         //instant win on reaching target
         if (score >= targetScore)
+<<<<<<< HEAD
         {
+=======
+>>>>>>> parent of c682398 (Particle System coins & pause button)
             EndGame(true);
-        }  
     }
 
     private void EndGame(bool win)
@@ -129,8 +174,12 @@ public class GameManager : MonoBehaviour
         if (win)
         {
             Debug.Log("You win!");
+<<<<<<< HEAD
             if (winPanel)
                 winPanel.SetActive(true);
+=======
+            if (winPanel) winPanel.SetActive(true);
+>>>>>>> parent of c682398 (Particle System coins & pause button)
         }
         else
         {
@@ -142,16 +191,23 @@ public class GameManager : MonoBehaviour
     private void UpdateScoreUI()
     {
         if (scoreText != null)
+<<<<<<< HEAD
         {
             scoreText.text = score + " /30";
         }  
+=======
+            scoreText.text = score + " /30";
+>>>>>>> parent of c682398 (Particle System coins & pause button)
     }
 
     private void UpdateTimerUI()
     {
         if (timerText != null)
         {
+<<<<<<< HEAD
             //Rounds up to the nearest whole numer, convert timer to int
+=======
+>>>>>>> parent of c682398 (Particle System coins & pause button)
             int seconds = Mathf.CeilToInt(timeLeft);
             timerText.text = seconds.ToString();
         }
@@ -164,6 +220,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+<<<<<<< HEAD
     //Pause button
     public void TogglePause()
     {
@@ -209,5 +266,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("Game Resumed");
         }      
     }
+=======
+>>>>>>> parent of c682398 (Particle System coins & pause button)
 }
-

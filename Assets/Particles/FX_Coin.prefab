@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1438565936}
   - component: {fileID: 4791611851574708811}
   m_Layer: 0
-  m_Name: Dirtsplatter
+  m_Name: FX_Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
