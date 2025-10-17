@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     public GameObject startPanel;
     public GameObject winPanel;
     public GameObject losePanel;
-    
 
     private float timeLeft;
     private bool gameEnded = false;
@@ -58,7 +57,7 @@ public class GameManager : MonoBehaviour
         gameStarted = true;
         gameEnded = false;
 
-        //Reset round values (optional)
+        //Reset round values
         timeLeft = gameDuration;
         score = 0;
         UpdateScoreUI();
@@ -67,6 +66,13 @@ public class GameManager : MonoBehaviour
         if (startPanel) startPanel.SetActive(false);
         if (winPanel) winPanel.SetActive(false);
         if (losePanel) losePanel.SetActive(false);
+
+        var musicMgr = FindObjectOfType<AudioManager>();   // your DontDestroyOnLoad singleton
+        if (musicMgr != null)
+        {
+            var bg = musicMgr.GetComponent<AudioSource>();
+            if (bg && !bg.isPlaying) bg.Play();            // Play On Awake OFF on MusicManager
+        }
 
         Time.timeScale = 1f; // unpause
     }
