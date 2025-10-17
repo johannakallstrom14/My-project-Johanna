@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Controller")]
     public float speed = 10f;
     public float xRange = 20f;
     public float zRange = 20f;

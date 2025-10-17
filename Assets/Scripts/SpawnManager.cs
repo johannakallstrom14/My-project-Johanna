@@ -10,13 +10,7 @@ public class SpawnManager : MonoBehaviour
     [Header("Timing")]
     public float intervalSeconds = 5f;
 
-    //[Header("Spawn Offset")]
     private float yOffset = 0.5f; // a tiny lift so it’s not inside the ground
-
-    //public float minDistanceFromChicken = 0.5f;
-    //public float maxDistanceFromChicken = 2.0f;
-
-
     private Transform[] chickens;
 
     void Start()
@@ -39,24 +33,33 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
+        //Calls the method repeatedly every 5 seconds
         InvokeRepeating(nameof(LayOneEgg), intervalSeconds, intervalSeconds);
     }
 
     void LayOneEgg()
     {
-        if (eggPrefab == null || chickens == null || chickens.Length == 0) return;
+        if (eggPrefab == null || chickens == null || chickens.Length == 0)
+        {
+            return;
+        }
 
+        //Picks random chicken from the array
         int index = Random.Range(0, chickens.Length);
         Transform chicken = chickens[index];
-        if (chicken == null) return; // in case one got destroyed
 
-        // Spawn right under the chicken (slightly above ground)
+        //If the chicken is still missing
+        if (chicken == null)
+        {
+            return; 
+        }
+
+        // Spawn the egg right under the chicken
         Vector3 spawnPos = chicken.position + Vector3.up * (yOffset + 0.2f);
         GameObject egg = Instantiate(eggPrefab, spawnPos, Quaternion.identity);
 
-        // Start a short coroutine to apply the force right after spawn
+        // Wait one physics fram before adding force 
         StartCoroutine(ApplyLaunchForceNextFrame(egg, chicken));
-
     }
 
     private IEnumerator ApplyLaunchForceNextFrame(GameObject egg, Transform chicken)
@@ -64,22 +67,20 @@ public class SpawnManager : MonoBehaviour
         // wait one fixed frame so physics can initialize
         yield return new WaitForFixedUpdate();
 
-        if (egg == null) yield break;
+        if (egg == null)
+        {
+            yield break;
+        }
 
         Rigidbody rb = egg.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            // Direction away from the chicken (slightly upward)
+            // Direction away from the chicken 
             Vector3 dir = (egg.transform.position - chicken.position).normalized;
-            float rollForce = 3f;     // tweak strength
-            float upwardForce = 0.3f; // small lift so it clears ground
+            float rollForce = 3f;     
+            float upwardForce = 0.3f; 
 
             rb.AddForce(dir * rollForce + Vector3.up * upwardForce, ForceMode.Impulse);
         }
-
-        }
-
-        //Removed * yOffset
-        //Vector3 pos = chicken.position + randomDir * distanceFromChicken + Vector3.up;
-        //Instantiate(eggPrefab, pos, Quaternion.identity);
     }
+}

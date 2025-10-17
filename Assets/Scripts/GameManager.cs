@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Pause")]
     public GameObject pausePanel;
-
     
     private float timeLeft;
     private bool gameEnded = false;
@@ -31,54 +30,54 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (startPanel) {
-            startPanel.SetActive(true);
-        }
-
-        if (winPanel) {
-            winPanel.SetActive(false);
-        }
-
-        if (losePanel) {
-            losePanel.SetActive(false);
-        }
-
-        if (settingsButton) {
-            settingsButton.SetActive(false);
-        }
+        //Load StartScene
+        startPanel.SetActive(true);
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+        settingsButton.SetActive(false);
 
         timeLeft = gameDuration;
         score = 0;
         UpdateScoreUI();
         UpdateTimerUI();
 
-        Time.timeScale = 0f; // paused until StartGame is pressed
+        //paused until StartGame is pressed
+        Time.timeScale = 0f; 
     }
 
     void Update()
     {
-        if (!gameStarted || gameEnded) {
+        if (!gameStarted || gameEnded)
+        {
             return;
         }
 
+        //Countdown for the timer
         timeLeft -= Time.deltaTime;
 
-        if (timeLeft < 0f) {
+        //Prevents timer to count negative numbers
+        if (timeLeft < 0f)
+        {
             timeLeft = 0f;
         }
 
+        
      UpdateTimerUI();
 
-        if (timeLeft <= 0f) {
+        //End game when time is up
+        if (timeLeft <= 0f)
+        {
             EndGame(score >= targetScore);
         }     
     }
 
     public void StartGame()
     {
-        if (gameStarted) {
+        if (gameStarted)
+        {
             return;
-        }    
+        }
+
         gameStarted = true;
         gameEnded = false;
 
@@ -88,31 +87,26 @@ public class GameManager : MonoBehaviour
         UpdateScoreUI();
         UpdateTimerUI();
 
-        if (startPanel) {
-            startPanel.SetActive(false);
+        startPanel.SetActive(false);
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+
+        //Starts the background music
+        AudioManager audioMgr = FindObjectOfType<AudioManager>();   
+        if (audioMgr != null)
+        {
+            AudioSource bg = audioMgr.GetComponent<AudioSource>();
+            if (bg && !bg.isPlaying) bg.Play();            
         }
 
-        if (winPanel) {
-            winPanel.SetActive(false);
-        }
-
-        if (losePanel) {
-            losePanel.SetActive(false);
-        }
-        
-        var musicMgr = FindObjectOfType<AudioManager>();   // your DontDestroyOnLoad singleton
-
-        if (musicMgr != null) {
-            var bg = musicMgr.GetComponent<AudioSource>();
-            if (bg && !bg.isPlaying) bg.Play();            // Play On Awake OFF on MusicManager
-        }
-
-        Time.timeScale = 1f; // unpause
+        // unpause game
+        Time.timeScale = 1f; 
     }
 
     public void AddScore(int amount)
     {
-        if (!gameStarted || gameEnded) {
+        if (!gameStarted || gameEnded)
+        {
             return;
         }
         
@@ -121,7 +115,8 @@ public class GameManager : MonoBehaviour
         UpdateScoreUI();
 
         //instant win on reaching target
-        if (score >= targetScore) {
+        if (score >= targetScore)
+        {
             EndGame(true);
         }  
     }
@@ -131,11 +126,14 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
         Time.timeScale = 0f; // pause the game
 
-        if (win) {
+        if (win)
+        {
             Debug.Log("You win!");
             if (winPanel)
                 winPanel.SetActive(true);
-        } else {
+        }
+        else
+        {
             Debug.Log("Game over!");
             if (losePanel) losePanel.SetActive(true);
         }
@@ -143,15 +141,17 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        if (scoreText != null) {
+        if (scoreText != null)
+        {
             scoreText.text = score + " /30";
-        }
-            
+        }  
     }
 
     private void UpdateTimerUI()
     {
-        if (timerText != null) {
+        if (timerText != null)
+        {
+            //Rounds up to the nearest whole numer, convert timer to int
             int seconds = Mathf.CeilToInt(timeLeft);
             timerText.text = seconds.ToString();
         }
@@ -164,28 +164,35 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    //Pause button
     public void TogglePause()
     {
-        if (!gameStarted || gameEnded) {
+        if (!gameStarted || gameEnded)
+        {
             return;
         }
 
-        if (isPaused) {
+        if (isPaused)
+        {
             ResumeGame();
-        } else {
+        }
+        else
+        {
             PauseGame();
         }      
     }
 
     public void PauseGame()
     {
-        if (isPaused) {
+        if (isPaused)
+        {
             return;
         }  
         isPaused = true;
         Time.timeScale = 0f;                 
 
-        if (pausePanel) {
+        if (pausePanel)
+        {
             pausePanel.SetActive(true);
             Debug.Log("Game Paused");
         }
@@ -196,7 +203,8 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
 
-        if (pausePanel) {
+        if (pausePanel)
+        {
             pausePanel.SetActive(false);
             Debug.Log("Game Resumed");
         }      

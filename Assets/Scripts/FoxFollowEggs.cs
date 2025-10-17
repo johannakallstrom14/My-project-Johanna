@@ -14,6 +14,7 @@ public class FoxFollowEggs : MonoBehaviour
 
     void Update()
     {
+        //When the timer hits 0 the fox searches for a new egg
         checkTimer -= Time.deltaTime;
         if (checkTimer <= 0f)
         {
@@ -21,13 +22,17 @@ public class FoxFollowEggs : MonoBehaviour
             checkTimer = checkRate;
         }
 
-        if (targetEgg == null) return;
-
-        // Move toward the egg
+        if (targetEgg == null)
+        {
+            return;
+        }
+           
+        //Fox moves towards the egg
         Vector3 dir = targetEgg.position - transform.position;
         dir.y = 0; // stay on ground level
         float dist = dir.magnitude;
 
+        //The fox moves if it's not too close
         if (dist > stopDistance)
         {
             transform.position += dir.normalized * speed * Time.deltaTime;
@@ -46,10 +51,17 @@ public class FoxFollowEggs : MonoBehaviour
         float minDist = Mathf.Infinity;
         Vector3 pos = transform.position;
 
+        //Searches the entire scene for all eggs, chekcs for the egg with the smallest distance
         foreach (EggCollect egg in eggs)
         {
-            if (egg == null) continue;
+            if (egg == null)
+            {
+                continue;
+            }
+                
             float dist = (egg.transform.position - pos).sqrMagnitude;
+
+            //Checks for the closest egg
             if (dist < minDist)
             {
                 minDist = dist;

@@ -10,7 +10,6 @@ public class AudioManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-
             //Keeps it alive between scenes
             DontDestroyOnLoad(gameObject);
         }
